@@ -16,14 +16,6 @@
 > "The future of HR isn't just about reporting what happened. It's about predicting what will happen and having the operational command center to change the outcome." — **Dr. Harry Patria**
 
 ---
-### Run in Google Colab (No Installation Required)
-
-<p align="left" style="display: flex; justify-content: center; gap: 10px;">
-  <a href="https://colab.research.google.com/drive/13519TfQXrX-YwUWF_gIAnoM2mK_2CZAk?usp=sharing" target="_blank">
-    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open Main Tutorial In Colab" />
-  </a>
-</p>
----
 
 ## 🛠️ The ITDO Framework
 
@@ -130,13 +122,4 @@ Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 *   [Patria & Co.](https://www.patriaco.co.uk)
 
 ---
-
-<div align="center">
-
-## 🌟 Support This Project
-**Follow me on GitHub**: [![GitHub Follow](https://img.shields.io/github/followers/Harrypatria?style=social)](https://github.com/Harrypatria?tab=followers)
-**Connect on LinkedIn**: [![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/harry-patria/)
-
-Click the buttons above to show your support!
-
-</div>
+*Built with ❤️ by the Agentic People Analytics Masterclass team.*
