@@ -248,10 +248,10 @@ export function LandingPage({ onLogin }: LandingPageProps) {
                 <a href="https://www.linkedin.com/company/patriaco/" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
                   <Linkedin className="h-4 w-4" /> LinkedIn
                 </a>
-                <a href="https://twitter.com/PatriaCo" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
-                  <Twitter className="h-4 w-4" /> Twitter
+                <a href="https://www.instagram.com/patriaco.id/" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
+                  <Twitter className="h-4 w-4" /> Instagram
                 </a>
-                <a href="https://www.patriaco.co.uk/masterclass" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
+                <a href="https://patriaco.co.uk/agentic-ai" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
                    Masterclass
                 </a>
               </div>
@@ -263,13 +263,13 @@ export function LandingPage({ onLogin }: LandingPageProps) {
                 <a href="https://www.convergeni.com" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
                   <Globe className="h-4 w-4" /> Website
                 </a>
-                <a href="https://www.linkedin.com/company/convergence-indonesia/" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
+                <a href="https://www.linkedin.com/in/harry-patria/" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
                   <Linkedin className="h-4 w-4" /> LinkedIn
                 </a>
-                <a href="https://twitter.com/ConvergenceID" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
+                <a href="https://convergeni.com/paths" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
                   <Twitter className="h-4 w-4" /> Twitter
                 </a>
-                <a href="https://convergeni.com/community" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
+                <a href="https://convergeni.com/" target="_blank" rel="noreferrer" className="text-slate-500 hover:text-purple-600 transition-colors text-sm flex items-center gap-2">
                    Community
                 </a>
               </div>
