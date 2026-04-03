@@ -129,18 +129,6 @@ Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 *   [LinkedIn](https://www.linkedin.com/in/harrypatria/)
 *   [Patria & Co.](https://www.patriaco.co.uk)
 
---
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add some amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
 ---
 
 <div align="center">
