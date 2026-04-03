@@ -1,0 +1,392 @@
+================================================================================
+  PROMPT.TXT — Attrition Predictor Pro
+  Full-Stack ML App Generation via Google AI Studio
+  Author: Dr. Harry Patria, Chief Data & AI Officer, Patria & Co.
+  Version: 3.0.0 | Framework: fullstack-analytics-builder (PROMPT.md)
+================================================================================
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 1 — ROLE & CONTEXT
+────────────────────────────────────────────────────────────────────────────────
+
+You are a senior HR analytics engineer and full-stack software engineer with
+deep expertise in:
+  - People analytics and employee lifecycle modelling
+  - Gradient Boosting / XGBoost / LightGBM for classification
+  - React 18 + Vite + TypeScript + Tailwind CSS frontend development
+  - FastAPI (Python) REST API design with Pydantic v2 validation
+  - Supabase (PostgreSQL) database schema design with RLS policies
+  - SHAP-based model interpretability for HR decision-makers
+  - The ITDO Framework (Insights → Triggers → Decisions → Operations)
+
+Your task: build a PRODUCTION-GRADE, FULLY DEPLOYABLE full-stack ML web
+application for employee attrition prediction. Execute all phases SILENTLY
+without asking clarifying questions. Deliver everything in ONE response.
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 2 — PROBLEM STATEMENT
+────────────────────────────────────────────────────────────────────────────────
+
+BUSINESS PROBLEM:
+  Organizations lose 1.5–2x annual salary per voluntary departure. HR teams
+  currently rely on exit interviews — data collected AFTER attrition occurs.
+  We need a proactive system that predicts WHO will leave, WHY they will leave,
+  and WHAT actions can prevent it, all surfaced in a real-time command center.
+
+TARGET USERS:
+  - Chief People Officers (CPO) needing board-level retention metrics
+  - HR Business Partners executing individual intervention plans
+  - People Analytics teams building evidence-based retention programs
+
+SUCCESS METRICS:
+  - Model AUC-ROC ≥ 0.85 on holdout set
+  - SHAP waterfall explanations per individual prediction
+  - Risk threshold alert at >70% predicted attrition probability
+  - Task completion tracking from insight to resolution
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 3 — DATASET & FEATURE SPECIFICATION
+────────────────────────────────────────────────────────────────────────────────
+
+PRIMARY DATASET: IBM HR Analytics Employee Attrition Dataset
+  Source: Kaggle / UCI ML Repository
+  Rows: 1,470 employees | Target: Attrition (Yes/No → binary 1/0)
+
+FEATURE GROUPS:
+  ┌─────────────────────┬──────────────────────────────────────────────────┐
+  │ Group               │ Features                                         │
+  ├─────────────────────┼──────────────────────────────────────────────────┤
+  │ Demographics        │ Age, Gender, MaritalStatus, DistanceFromHome     │
+  │ Job Characteristics │ JobRole, Department, JobLevel, JobInvolvement    │
+  │ Compensation        │ MonthlyIncome, StockOptionLevel, PercentSalaryHike│
+  │ Satisfaction        │ JobSatisfaction, WorkLifeBalance, EnvironmentSat  │
+  │ Tenure & Experience │ YearsAtCompany, YearsInRole, NumCompaniesWorked   │
+  │ Performance         │ PerformanceRating, TrainingTimesLastYear          │
+  │ Workload            │ OverTime, BusinessTravel, StandardHours           │
+  └─────────────────────┴──────────────────────────────────────────────────┘
+
+TARGET: Attrition → encode as binary (Yes=1, No=0)
+CLASS IMBALANCE: ~16% positive class — apply SMOTE or class_weight='balanced'
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 4 — DATA PIPELINE SPECIFICATION
+────────────────────────────────────────────────────────────────────────────────
+
+PHASE 1 — DATA INGESTION (backend/data_pipeline.py)
+  1. Load raw CSV from /data/raw/HR-Employee-Attrition.csv
+  2. Drop constants: EmployeeCount, Over18, StandardHours
+  3. Drop ID column: EmployeeNumber
+  4. Assert no null values; log shape and dtypes
+
+PHASE 2 — EXPLORATORY DATA ANALYSIS (notebooks/01_eda.ipynb)
+  1. Attrition distribution plot (countplot + pie chart)
+  2. Correlation heatmap (numerical features only)
+  3. Box plots: MonthlyIncome by Attrition, Age by Attrition
+  4. Stacked bar: Attrition rate by Department, JobRole, OverTime
+  5. Export all plots to /reports/eda/ as PNG (300 DPI)
+
+PHASE 3 — PREPROCESSING (backend/preprocessing.py)
+  Steps wrapped in sklearn.pipeline.Pipeline:
+  ┌──────────────────┬────────────────────────────────────────────────────┐
+  │ Step             │ Transformer                                        │
+  ├──────────────────┼────────────────────────────────────────────────────┤
+  │ Numeric scaling  │ StandardScaler on all int/float columns            │
+  │ OHE categorical  │ OneHotEncoder(drop='first', sparse=False)          │
+  │ Target encoding  │ LabelEncoder on Attrition (Yes→1, No→0)           │
+  │ Train/test split │ 80/20 stratified on target, random_state=42       │
+  │ Imbalance fix    │ class_weight='balanced' in model params            │
+  └──────────────────┴────────────────────────────────────────────────────┘
+
+PHASE 4 — MODEL TRAINING (backend/train.py)
+  Train THREE candidate models, compare, select best:
+    Model A: GradientBoostingClassifier(n_estimators=200, learning_rate=0.05,
+             max_depth=4, random_state=42)
+    Model B: XGBClassifier(n_estimators=200, learning_rate=0.05,
+             use_label_encoder=False, eval_metric='logloss', random_state=42)
+    Model C: LogisticRegression(class_weight='balanced', max_iter=1000)
+
+  Cross-validation: StratifiedKFold(n_splits=5)
+  Metrics: AUC-ROC, F1-Score (macro), Precision, Recall, Accuracy
+
+  Hyperparameter tuning (best model only):
+    GridSearchCV on: n_estimators, max_depth, learning_rate, subsample
+
+PHASE 5 — MODEL EVALUATION (notebooks/02_evaluation.ipynb)
+  1. Confusion matrix (normalized)
+  2. ROC curve with AUC annotation
+  3. Precision-Recall curve
+  4. Feature importance plot (top 15 features)
+  5. SHAP summary plot (beeswarm)
+  6. SHAP waterfall for 3 sample predictions (high/medium/low risk)
+  7. Export metrics to /reports/model_report.md
+
+PHASE 6 — SERIALISATION (backend/train.py, end of script)
+  joblib.dump(best_pipeline, 'models/model.pkl')
+  pickle.dump(best_pipeline, open('models/model.sav', 'wb'))
+  json.dump(feature_names, open('models/feature_names.json', 'w'))
+  json.dump(metrics_dict, open('models/metrics.json', 'w'))
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 5 — BACKEND API SPECIFICATION (FastAPI)
+────────────────────────────────────────────────────────────────────────────────
+
+FILE: backend/main.py
+
+ROUTES:
+  POST /predict
+    Body: PredictionRequest (all employee feature fields, Pydantic v2)
+    Returns: {
+      employee_id: str,
+      attrition_probability: float,       // 0.0–1.0
+      risk_level: "LOW"|"MEDIUM"|"HIGH",  // <0.4 / 0.4–0.7 / >0.7
+      top_risk_factors: [                 // top 5 SHAP contributors
+        { feature: str, impact: float, direction: "increases"|"decreases" }
+      ],
+      suggested_interventions: [str],     // rule-based from risk_factors
+      prediction_id: uuid                 // logged to Supabase
+    }
+
+  GET /model-metrics
+    Returns: { auc_roc, f1_score, precision, recall, accuracy, trained_at }
+
+  GET /health
+    Returns: { status: "ok", model_loaded: bool, version: str }
+
+  POST /batch-predict
+    Body: list[PredictionRequest] (max 500)
+    Returns: list[PredictionResponse]
+
+MIDDLEWARE:
+  - CORS: allow origins from VITE_APP_URL
+  - Rate limiting: 100 req/min per IP (slowapi)
+  - Request logging: structlog JSON format
+  - Error handling: HTTPException with structured error body
+
+SHAP INTEGRATION:
+  explainer = shap.TreeExplainer(model)
+  shap_values = explainer.shap_values(X_input)
+  # Return top 5 absolute SHAP values with feature names and sign
+
+INTERVENTION RULES (backend/interventions.py):
+  OverTime → "Implement flexible work arrangements / OT cap policy"
+  MonthlyIncome (low) → "Conduct compensation benchmarking & equity refresh"
+  JobSatisfaction (low) → "Schedule career development conversation"
+  WorkLifeBalance (low) → "Enrol in EAP / wellness programme"
+  YearsAtCompany (low) → "Assign mentorship and 90-day check-in programme"
+  StockOptionLevel (0) → "Review equity participation eligibility"
+  BusinessTravel (high) → "Review travel load; offer remote flex days"
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 6 — DATABASE SCHEMA (Supabase / PostgreSQL)
+────────────────────────────────────────────────────────────────────────────────
+
+FILE: supabase/migrations/001_init.sql
+
+-- Table: employees
+CREATE TABLE employees (
+  id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  employee_ref    text NOT NULL,
+  department      text,
+  job_role        text,
+  manager_id      uuid REFERENCES employees(id),
+  created_at      timestamptz NOT NULL DEFAULT now(),
+  updated_at      timestamptz NOT NULL DEFAULT now()
+);
+
+-- Table: predictions
+CREATE TABLE predictions (
+  id                      uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  employee_id             uuid REFERENCES employees(id),
+  attrition_probability   numeric(5,4) NOT NULL,
+  risk_level              text NOT NULL CHECK (risk_level IN ('LOW','MEDIUM','HIGH')),
+  top_risk_factors        jsonb,
+  suggested_interventions jsonb,
+  model_version           text,
+  created_by              uuid REFERENCES auth.users(id),
+  created_at              timestamptz NOT NULL DEFAULT now()
+);
+
+-- Table: alerts
+CREATE TABLE alerts (
+  id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  prediction_id   uuid REFERENCES predictions(id),
+  employee_id     uuid REFERENCES employees(id),
+  threshold       numeric(5,4) NOT NULL,
+  status          text NOT NULL DEFAULT 'OPEN' CHECK (status IN ('OPEN','ACKNOWLEDGED','RESOLVED')),
+  assigned_to     uuid REFERENCES auth.users(id),
+  created_at      timestamptz NOT NULL DEFAULT now(),
+  updated_at      timestamptz NOT NULL DEFAULT now()
+);
+
+-- Table: tasks (Operations layer of ITDO)
+CREATE TABLE tasks (
+  id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  alert_id        uuid REFERENCES alerts(id),
+  employee_id     uuid REFERENCES employees(id),
+  title           text NOT NULL,
+  description     text,
+  intervention    text,
+  status          text NOT NULL DEFAULT 'TODO' CHECK (status IN ('TODO','IN_PROGRESS','DONE','CANCELLED')),
+  due_date        date,
+  assigned_to     uuid REFERENCES auth.users(id),
+  created_by      uuid REFERENCES auth.users(id),
+  created_at      timestamptz NOT NULL DEFAULT now(),
+  updated_at      timestamptz NOT NULL DEFAULT now()
+);
+
+-- RLS: Enable on all tables
+ALTER TABLE employees   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE predictions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE alerts      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tasks       ENABLE ROW LEVEL SECURITY;
+
+-- Indexes
+CREATE INDEX idx_predictions_employee ON predictions(employee_id);
+CREATE INDEX idx_predictions_risk ON predictions(risk_level);
+CREATE INDEX idx_alerts_status ON alerts(status);
+CREATE INDEX idx_tasks_assigned ON tasks(assigned_to);
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 7 — FRONTEND UI SPECIFICATION (React 18 + Vite + TypeScript)
+────────────────────────────────────────────────────────────────────────────────
+
+DESIGN SYSTEM:
+  Theme: Dark professional (slate-900 base, cyan-500 accent)
+  Typography: Display → "DM Serif Display"; Body → "DM Sans"
+  Components: shadcn/ui base + custom Recharts visualisations
+  Motion: Framer Motion — staggered card reveals, tab transitions
+
+PAGES & ROUTES (React Router v6):
+  /              → Dashboard (KPI overview + risk heatmap)
+  /predict       → Single Employee Predictor (Slicer UI)
+  /batch         → Batch Upload & Predict (CSV drag-drop)
+  /alerts        → Alerts Management (Triggers layer)
+  /tasks         → Task Board (Operations layer — Kanban)
+  /model         → Model Insights (metrics + SHAP plots)
+  /settings      → Alert threshold config, system prompt editor
+
+SLICER UI (/predict) — ITDO Insights layer:
+  Left panel (slicers):
+    Numerical fields → <Slider min max step defaultValue={median}/> + synced <Input/>
+    Categorical fields → <Select> with all training category options
+    Boolean fields → <Switch> (OverTime, BusinessTravel toggle)
+
+  Right panel (results, updates on every slider change with 300ms debounce):
+    - Risk Gauge (0–100, color coded green/amber/red)
+    - Attrition Probability Badge (large, coloured)
+    - SHAP Waterfall Chart (Recharts BarChart horizontal)
+    - Top 5 Risk Factor cards with direction arrows
+    - Suggested Interventions accordion
+    - "Save to Alerts" button → writes to Supabase alerts table
+
+ALERTS PAGE (/alerts) — ITDO Triggers layer:
+  - Filterable table: risk level, department, assigned HR, date range
+  - Threshold slider config (default 70%)
+  - Status transitions: OPEN → ACKNOWLEDGED → RESOLVED
+  - Bulk assign to HR Business Partner
+  - Export to CSV
+
+TASK BOARD (/tasks) — ITDO Operations layer:
+  - Kanban columns: TODO | IN_PROGRESS | DONE | CANCELLED
+  - Drag-and-drop (dnd-kit)
+  - Task cards: employee name, intervention type, due date, assignee avatar
+  - Add task from alert → pre-fills from SHAP intervention suggestions
+
+MODEL INSIGHTS (/model) — ITDO Decisions layer:
+  - Metrics cards: AUC-ROC, F1, Precision, Recall
+  - ROC curve (Recharts LineChart)
+  - Feature Importance bar chart (top 15, Recharts)
+  - Confusion matrix (custom grid component)
+  - Model version and training date
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 8 — GOOGLE AI STUDIO DEPLOYMENT INSTRUCTIONS
+────────────────────────────────────────────────────────────────────────────────
+
+STEP 1 — UPLOAD THIS PROMPT
+  Open https://aistudio.google.com/
+  New prompt → System Instructions → paste SECTIONS 1–7 above
+  Model: Gemini 2.5 Pro (for code generation) or Gemini 2.0 Flash (fast iter)
+
+STEP 2 — ATTACH CONTEXT FILES
+  Upload the following to the prompt context:
+    □ HR-Employee-Attrition.csv  (raw dataset)
+    □ notebooks/01_eda.ipynb     (if pre-existing EDA exists)
+    □ Prompt.md                   (fullstack-analytics-builder spec)
+
+STEP 3 — GENERATION SEQUENCE (run each as separate prompt turns)
+  Turn 1: "Generate Phase 1–3 (data pipeline, EDA, preprocessing). 
+           Output: backend/data_pipeline.py, backend/preprocessing.py,
+           notebooks/01_eda.ipynb"
+
+  Turn 2: "Generate Phase 4–5 (model training and evaluation).
+           Output: backend/train.py, notebooks/02_evaluation.ipynb,
+           reports/model_report.md"
+
+  Turn 3: "Generate Phase 6 (FastAPI backend).
+           Output: backend/main.py, backend/interventions.py,
+           backend/schemas.py, requirements.txt"
+
+  Turn 4: "Generate Phase 7 (Supabase schema).
+           Output: supabase/migrations/001_init.sql"
+
+  Turn 5: "Generate Phase 8 (React frontend).
+           Output: src/ directory — all pages, components, hooks, stores"
+
+  Turn 6: "Generate Phase 9 (tests, Docker, CI/CD, README).
+           Output: tests/, Dockerfile, docker-compose.yml,
+           .github/workflows/ci.yml, .env.example"
+
+STEP 4 — VITE DEV SERVER (LOCAL TEST)
+  npm install && pip install -r requirements.txt
+  uvicorn backend.main:app --reload &
+  npm run dev
+  Open http://localhost:5173
+
+STEP 5 — VERCEL DEPLOYMENT (FRONTEND)
+  vercel --prod
+  Set env vars: VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_API_URL
+
+STEP 6 — RENDER DEPLOYMENT (FASTAPI BACKEND)
+  Connect GitHub repo → Render web service
+  Build command: pip install -r requirements.txt
+  Start command: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+  Set env vars: SUPABASE_SERVICE_ROLE_KEY, MODEL_PATH
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 9 — ENVIRONMENT VARIABLES (.env.example)
+────────────────────────────────────────────────────────────────────────────────
+
+# ── Supabase ──────────────────────────────────────────────────────────────────
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key          # server only
+
+# ── App ───────────────────────────────────────────────────────────────────────
+VITE_APP_URL=http://localhost:5173
+API_URL=http://localhost:8000
+NODE_ENV=development
+
+# ── ML API ────────────────────────────────────────────────────────────────────
+MODEL_PATH=models/model.pkl
+MODEL_VERSION=1.0.0
+
+# ── Optional: OpenAI chatbot layer ────────────────────────────────────────────
+OPENAI_API_KEY=sk-...                                     # server only
+OPENAI_MODEL=gpt-4o
+OPENAI_MAX_TOKENS=1000
+
+────────────────────────────────────────────────────────────────────────────────
+SECTION 10 — FINAL DELIVERY FORMAT
+────────────────────────────────────────────────────────────────────────────────
+
+## App: Attrition Predictor Pro
+### Stack
+### Repository Structure  (full tree)
+### Key Files             (complete code, no placeholders)
+### Run Locally
+### Test Results          (E2E pass count + model AUC-ROC, F1)
+### Deploy
+
+END OF PROMPT
+================================================================================
