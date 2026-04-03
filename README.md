@@ -17,7 +17,7 @@
 
 **Transform employee retention from reactive reporting into proactive intelligence.**
 
-[🚀 Live Demo](https://ais-dev-dtiotfvpg4lsnhfux7dgfg-205102116537.europe-west3.run.app/) · [📓 Google Colab](https://colab.research.google.com/drive/13519TfQXrX-YwUWF_gIAnoM2mK_2CZAk?usp=sharing) · [📄 Prompt](./prompt.txt) · [🐛 Issues](https://github.com/Harrypatria/Awesome-fullstack-prediction-app-/issues)
+[🚀 Live Demo](https://ais-pre-dtiotfvpg4lsnhfux7dgfg-205102116537.europe-west3.run.app) · [📓 Google Colab](https://colab.research.google.com/drive/13519TfQXrX-YwUWF_gIAnoM2mK_2CZAk?usp=sharing) · [📄 Prompt](./prompt.txt) · [🐛 Issues](https://github.com/Harrypatria/Awesome-fullstack-prediction-app-/issues)
 
 </div>
 
