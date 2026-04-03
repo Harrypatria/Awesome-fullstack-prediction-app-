@@ -16,6 +16,14 @@
 > "The future of HR isn't just about reporting what happened. It's about predicting what will happen and having the operational command center to change the outcome." — **Dr. Harry Patria**
 
 ---
+### Run in Google Colab (No Installation Required)
+
+<p align="left" style="display: flex; justify-content: center; gap: 10px;">
+  <a href="https://colab.research.google.com/drive/13519TfQXrX-YwUWF_gIAnoM2mK_2CZAk?usp=sharing" target="_blank">
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open Main Tutorial In Colab" />
+  </a>
+</p>
+---
 
 ## 🛠️ The ITDO Framework
 
@@ -121,14 +129,7 @@ Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 *   [LinkedIn](https://www.linkedin.com/in/harrypatria/)
 *   [Patria & Co.](https://www.patriaco.co.uk)
 
----
-
-## 🌟 Star History
-
-If this project has helped you on your Python journey, please consider giving it a star! ⭐
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Harrypatria/SQLite_Advanced_Tutorial_Google_Colab&type=Date)](https://star-history.com/#Harrypatria/SQLite_Advanced_Tutorial_Google_Colab&Date)
-
+--
 
 ## 🤝 Contributing
 
