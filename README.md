@@ -122,4 +122,32 @@ Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 *   [Patria & Co.](https://www.patriaco.co.uk)
 
 ---
-*Built with ❤️ by the Agentic People Analytics Masterclass team.*
+
+## 🌟 Star History
+
+If this project has helped you on your Python journey, please consider giving it a star! ⭐
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Harrypatria/SQLite_Advanced_Tutorial_Google_Colab&type=Date)](https://star-history.com/#Harrypatria/SQLite_Advanced_Tutorial_Google_Colab&Date)
+
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add some amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+---
+
+<div align="center">
+
+## 🌟 Support This Project
+**Follow me on GitHub**: [![GitHub Follow](https://img.shields.io/github/followers/Harrypatria?style=social)](https://github.com/Harrypatria?tab=followers)
+**Connect on LinkedIn**: [![LinkedIn Follow](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/harry-patria/)
+
+Click the buttons above to show your support!
+
+</div>
