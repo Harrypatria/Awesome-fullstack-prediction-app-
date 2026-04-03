@@ -373,14 +373,14 @@ This project was architected and generated using **Google AI Studio** with **Gem
 1. Open [Google AI Studio](https://aistudio.google.com/)
 2. Create a **New Prompt** → set Model to **Gemini 2.5 Pro**
 3. Paste `prompt.txt` into **System Instructions**
-4. Attach files to context: `HR-Employee-Attrition.csv`, `SKILL.md`
+4. Attach files to context: `HR-Employee-Attrition.csv`, `Prompt.md`
 5. Follow the 6-turn generation sequence (detailed in `prompt.txt` Section 8)
 
 ---
 
 ## 📋 Prompt Engineering Guide
 
-The `prompt.txt` in this repository is a production-grade system prompt following the **fullstack-analytics-builder** SKILL framework. Here is how it is structured:
+The `prompt.txt` in this repository is a production-grade system prompt following the **fullstack-analytics-builder** PROMPT framework. Here is how it is structured:
 
 ```
 prompt.txt
@@ -521,7 +521,7 @@ Awesome-fullstack-prediction-app-/
 ├── ⚙️ .github/workflows/ci.yml
 ├── 🔐 .env.example
 ├── 📄 prompt.txt                     # Google AI Studio system prompt
-├── 📄 SKILL.md                       # fullstack-analytics-builder spec
+├── 📄 PROMPT.md                       # fullstack-analytics-builder spec
 └── 📖 README.md
 ```
 
@@ -662,7 +662,7 @@ Returns current model version, AUC-ROC, F1, precision, recall, training date.
 
 ## 🤝 Contributing
 
-Contributions are welcome! This project follows the [fullstack-analytics-builder](./SKILL.md) skill spec — please read it before submitting a PR.
+Contributions are welcome! This project follows the [fullstack-analytics-builder](./PROMPT.md) 
 
 ```bash
 # 1. Fork the repository
@@ -688,7 +688,7 @@ git push origin feature/your-feature-name
 - [ ] All secrets in `.env`, none in source
 - [ ] Loading, error, and empty states in every UI component
 - [ ] Playwright E2E test for new user flows
-- [ ] `SKILL.md` compliance (stack defaults, phase structure)
+- [ ] `PROMPT.md` compliance (stack defaults, phase structure)
 
 ---
 
