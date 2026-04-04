@@ -654,12 +654,6 @@ Returns current model version, AUC-ROC, F1, precision, recall, training date.
 
 ---
 
-## ⭐ Stars History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Harrypatria/Awesome-fullstack-prediction-app-&type=Date)](https://star-history.com/#Harrypatria/Awesome-fullstack-prediction-app-&Date)
-
----
-
 ## 🤝 Contributing
 
 Contributions are welcome! This project follows the [fullstack-analytics-builder](./PROMPT.md) 
