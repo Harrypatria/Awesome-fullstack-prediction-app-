@@ -1,6 +1,6 @@
 <div align="center">
 
-# Attrition Predictor Pro
+# Attrition Predictor App
 
 ### Agentic People Analytics & Retention Strategy Command Center
 
